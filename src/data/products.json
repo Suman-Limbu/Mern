@@ -76,5 +76,11 @@
     "brand": "Fantech",
     "category": "Electronics",
     "price": 1800
+  },
+  {
+    "name": "Gaming mouse",
+    "brand": "Fantech",
+    "category": "Eletronics",
+    "price": 1500
   }
 ]
