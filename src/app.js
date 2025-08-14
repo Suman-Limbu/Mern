@@ -7,6 +7,7 @@ import todoRoutes from "./routes/todoRoute.js";
 
 const app = express();
 
+
 app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
@@ -24,3 +25,34 @@ app.use("/todos", todoRoutes);
 app.listen(config.port, () => {
   console.log(`server running at ${config.port}...`);
 });
+
+
+ const test = [
+  {
+    "brand": "Acer",
+    "category": "Laptops",
+    "id": "6824b96262e271fe4f5615a0",
+    "name": "Acer Predator Helios 900",
+    "price": 300000
+  },
+  {
+    "brand": "Cetaphil",
+    "category": "Cosmetics",
+    "id": "6824bdd65f32b41b09e30fa4",
+    "name": "Face Serum",
+    "price": 1498
+  },
+  {
+    "brand": "Loreal",
+    "category": "Cosmetics",
+    "id": "68260ce2c2d98ebffcc0d523",
+    "name": "Loreal Shampoo 500ml Anti dandruff",
+    "price": 2500
+  },
+  {
+    "brand": "Lenovo",
+    "category": "Laptops",
+    "id": "6829f5c59aa9ea1a53e8aafa",
+    "name": "Lenovo Legion I7, 14th gen, 16GB RAM, 1TB SSD",
+    "price": 185000
+  }];
