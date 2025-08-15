@@ -1,11 +1,17 @@
 import express from "express";
 import bodyParser from "body-parser";
 
+
 import config from "./config/config.js";
 import productRoutes from "./routes/productRoute.js";
 import todoRoutes from "./routes/todoRoute.js";
+import connectDB from "./config/database.js";
+
+
 
 const app = express();
+connectDB();
+
 
 
 app.use(bodyParser.json());
