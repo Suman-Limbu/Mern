@@ -12,7 +12,7 @@ const getTodos = (req, res) => {
 
 
     const createTodo = (req, res) => {
- res.send("creat a task");
+ res.send("create a task");
 };
    
 
