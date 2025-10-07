@@ -18,6 +18,7 @@ return emailRegex.test(value);
     type: String,
     required: [true, "user password is required"],
     minLength: [6, "password length must be greater than five"],
+
   },
   roles: { type:[String] ,
     default:["USER"], enum: ["USER", "ADMIN", "MERCHANT"] },

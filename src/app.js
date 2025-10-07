@@ -1,12 +1,13 @@
-import express from "express";
 import bodyParser from "body-parser";
+import express from "express";
 
 
 import config from "./config/config.js";
+import connectDB from "./config/database.js";
+import authRoutes from "./routes/authRoute.js";
 import productRoutes from "./routes/productRoute.js";
 import todoRoutes from "./routes/todoRoute.js";
 import userRoutes from "./routes/userRoute.js";
-import connectDB from "./config/database.js";
 
 
 
@@ -29,6 +30,8 @@ app.get("/", (req, res) => {
 app.use("/api/products", productRoutes);
 app.use("/todos", todoRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/auth", authRoutes)
+
 
 app.listen(config.port, () => {
   console.log(`server running at ${config.port}...`);
