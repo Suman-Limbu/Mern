@@ -4,6 +4,8 @@ import express from "express";
 
 import config from "./config/config.js";
 import connectDB from "./config/database.js";
+import auth from "./middlewares/auth.js";
+import logger from "./middlewares/logger.js";
 import authRoutes from "./routes/authRoute.js";
 import productRoutes from "./routes/productRoute.js";
 import todoRoutes from "./routes/todoRoute.js";
@@ -17,6 +19,9 @@ connectDB();
 
 
 app.use(bodyParser.json());
+app.use(logger);
+app.use(auth);
+
 
 app.get("/", (req, res) => {
   res.status(200).json({

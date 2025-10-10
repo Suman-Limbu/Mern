@@ -3,6 +3,7 @@ import productServices from "../services/productService.js";
 const getProducts = async (req, res) => {
   const products = await productServices.getProducts(req.query);
   res.status(200).json(products);
+
 };
 
 const getProductById =async (req, res) => {
