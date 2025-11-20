@@ -13,6 +13,7 @@ const getProductById =async (req, res) => {
 };
 
 const createProduct = async (req, res) => {
+  console.log(req.user);
 try{
   const data = await productServices.createProduct(req.body);
   res.status(201).json(data);

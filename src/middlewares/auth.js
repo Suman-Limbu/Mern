@@ -7,10 +7,11 @@ if(!cookie){
 }
 const authToken=cookie.split("=")[1];
 try{
-    await verifyJWT(authToken);
+   const data= await verifyJWT(authToken);
+    req.user=data;
 next();
 }catch(error){
-    res.status(401).send("user not authenticated.")
+    res.status(401).send("invalid auth token.")
 }
 };
 export default auth;
