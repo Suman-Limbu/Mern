@@ -19,7 +19,7 @@ const login = async (req, res) => {
 
     res.json(data);
   } catch (error) {
-    res.status(error.statusCode || 500).send(error.meassage);
+    res.status(error.statusCode || 500).send(error.message);
   }
 };
 
@@ -45,7 +45,7 @@ const register = async (req, res) => {
     const authToken = createJWT(data);
     res.cookie("authToken", authToken, { maxAge: 86400 * 1000 });
   } catch (error) {
-    res.status(error.statusCode || 500).send(error.meassage);
+    res.status(error.statusCode || 500).send(error.message);
   }
 };
 

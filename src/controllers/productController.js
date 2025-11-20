@@ -18,9 +18,8 @@ try{
   res.status(201).json(data);
 }catch(error){
 res.status(500).send(error.message);
-}
-  res.status(201).json(data);
-};
+};};
+  
 
 const updateProduct =async (req, res) => {
   try{
