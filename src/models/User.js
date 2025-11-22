@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { ADMIN, MERCHANT, USER } from "../constants.js/roles.js";
 
 const userSchema = new mongoose.Schema({
   name: { type: String, required: [true, "user name is required"] },
@@ -21,7 +22,7 @@ return emailRegex.test(value);
 
   },
   roles: { type:[String] ,
-    default:["USER"], enum: ["USER", "ADMIN", "MERCHANT"] },
+    default:[USER], enum: [USER, ADMIN, MERCHANT] },
 
   address: {
     city: {

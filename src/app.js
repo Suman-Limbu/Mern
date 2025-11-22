@@ -3,8 +3,10 @@ import express from "express";
 
 import config from "./config/config.js";
 import connectDB from "./config/database.js";
+import { ADMIN } from "./constants.js/roles.js";
 import auth from "./middlewares/auth.js";
 import logger from "./middlewares/logger.js";
+import roleBasedAuth from "./middlewares/roleBAsedAuth.js";
 import authRoutes from "./routes/authRoute.js";
 import productRoutes from "./routes/productRoute.js";
 import todoRoutes from "./routes/todoRoute.js";
@@ -27,7 +29,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/products", productRoutes);
 app.use("/todos", todoRoutes);
-app.use("/api/users", auth , userRoutes);
+app.use("/api/users", auth ,roleBasedAuth(ADMIN), userRoutes);
 app.use("/api/auth", authRoutes);
 
 app.listen(config.port, () => {

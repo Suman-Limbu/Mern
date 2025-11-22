@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import { USER } from "../constants.js/roles.js";
 import User from "../models/User.js";
 
 const login = async (data) => {
@@ -32,6 +33,8 @@ const register = async (data) => {
     email: data.email,
     phone: data.phone,
     password: hashedPassword,
+    roles:[USER],
+    
   });
   return {
     _id: registeredUser._id,
