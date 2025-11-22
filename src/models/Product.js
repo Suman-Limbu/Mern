@@ -26,6 +26,7 @@ const productSchema = new mongoose.Schema(
     imageUrls: {
       type: [String],
     },
+    createdBy: String,
   },
 
   { timestamps: true }

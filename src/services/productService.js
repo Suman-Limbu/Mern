@@ -7,15 +7,25 @@ const getProducts = async (query) => {
 
 const getProductById = async (id) => {
   const product = await Product.findById(id);
+  if (!product) {
+    throw { statusCode: 404, message: "Product not found." };
+  }
   return product;
 };
 
-const createProduct = async (data) => {
-  const createdProduct = await Product.create(data);
+const createProduct = async (data, createdBy) => {
+  const createdProduct = await Product.create({ ...data, createdBy });
   return createdProduct;
 };
 
-const updateProduct = async (id, data) => {
+const updateProduct = async (id, data, userId) => {
+  const product = await getProductById(id);
+  if (product.createdBy != userId) {
+    throw {
+      statusCode: 400,
+      message: "Access denied",
+    };
+  }
   const updatedProduct = await Product.findByIdAndUpdate(id, data, {
     new: true,
   });
