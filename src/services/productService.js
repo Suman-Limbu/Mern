@@ -1,7 +1,10 @@
 import Product from "../models/Product.js";
 
 const getProducts = async (query) => {
-  const products = await Product.find();
+  const limit = query.limit;
+  const offset = query.offset;
+  const sort = JSON.parse(query.sort || "{}");
+  const products = await Product.find().sort(sort).limit(limit).skip(offset);
   return products;
 };
 
