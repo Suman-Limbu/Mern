@@ -4,7 +4,18 @@ const getProducts = async (query) => {
   const limit = query.limit;
   const offset = query.offset;
   const sort = JSON.parse(query.sort || "{}");
-  const products = await Product.find().sort(sort).limit(limit).skip(offset);
+  const filters = {};
+  const brands = query.brands;
+  const category = query.category;
+  if (brands) {
+    const brandItems = brands.split(",");
+    filters.brands = { $in: brandItems };
+  }
+  if (category) filters.category = category;
+  const products = await Product.find(filters)
+    .sort(sort)
+    .limit(limit)
+    .skip(offset);
   return products;
 };
 
