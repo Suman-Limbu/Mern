@@ -6,9 +6,13 @@ const getProducts = async (req, res) => {
 };
 
 const getProductById = async (req, res) => {
-  const id = req.params.id;
-  const product = await productServices.getProductById(id);
-  res.json(product);
+  try {
+    const id = req.params.id;
+    const product = await productServices.getProductById(id);
+    res.json(product);
+  } catch (error) {
+    res.status(error.statusCode || 500).send(error.message);
+  }
 };
 
 const createProduct = async (req, res) => {

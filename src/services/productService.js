@@ -1,17 +1,15 @@
 import Product from "../models/Product.js";
 
 const getProducts = async (query) => {
-  const limit = query.limit;
-  const offset = query.offset;
+  const { limit, brands, category, offset, min, max , name } = query;
   const sort = JSON.parse(query.sort || "{}");
+
   const filters = {};
-  const brands = query.brands;
-  const category = query.category;
-  if (brands) {
-    const brandItems = brands.split(",");
-    filters.brands = { $in: brandItems };
-  }
+  if (brands) filters.brand = { $in: brands.split(",") };
   if (category) filters.category = category;
+  if (min) filters.price = { $gte: min };
+  if (max) filters.price = { ...filters.price, $lte: max };
+  if (name) filters.name = { $regex: name, $options: "i" };
   const products = await Product.find(filters)
     .sort(sort)
     .limit(limit)
