@@ -8,6 +8,7 @@ import auth from "./middlewares/auth.js";
 import logger from "./middlewares/logger.js";
 import roleBasedAuth from "./middlewares/roleBAsedAuth.js";
 import authRoutes from "./routes/authRoute.js";
+import orderRoutes from "./routes/orderRoute.js";
 import productRoutes from "./routes/productRoute.js";
 import todoRoutes from "./routes/todoRoute.js";
 import userRoutes from "./routes/userRoute.js";
@@ -26,11 +27,12 @@ app.get("/", (req, res) => {
     status: "OK",
   });
 });
-
+app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/orders", orderRoutes);
 app.use("/todos", todoRoutes);
 app.use("/api/users", auth ,roleBasedAuth(ADMIN), userRoutes);
-app.use("/api/auth", authRoutes);
+
 
 app.listen(config.port, () => {
   console.log(`server running at ${config.port}...`);
