@@ -1,7 +1,10 @@
 import express from "express";
+import { ADMIN } from "../constants.js/roles.js";
 import authController from "../controllers/orderController.js";
 import auth from "../middlewares/auth.js";
+import roleBasedAuth from "../middlewares/roleBAsedAuth.js";
 const router = express.Router();
-router.get("/", authController.getOrders);
-router.post("/",auth, authController.createOrder);
+router.get("/", auth, roleBasedAuth(ADMIN), authController.getOrders);
+router.post("/", auth, authController.createOrder);
+router.delete("/:id", auth, roleBasedAuth(ADMIN), authController.deleteOrder);
 export default router;
