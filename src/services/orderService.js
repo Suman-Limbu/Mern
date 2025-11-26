@@ -4,10 +4,8 @@ const getOrders = async () => {
   return orders;
 };
 
-const createOrder = async (data) => {
-  const order = await Order.create(data);
+const createOrder = async (data, userId) => {
+  const order = await Order.create({ ...data, userId });
 };
 
-
-
-export default {getOrders, createOrder};
+export default { getOrders, createOrder };

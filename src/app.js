@@ -31,8 +31,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/todos", todoRoutes);
-app.use("/api/users", auth ,roleBasedAuth(ADMIN), userRoutes);
-
+app.use("/api/users", auth, roleBasedAuth(ADMIN), userRoutes);
 
 app.listen(config.port, () => {
   console.log(`server running at ${config.port}...`);
