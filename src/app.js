@@ -1,5 +1,6 @@
 import bodyParser from "body-parser";
 import express from "express";
+import multer from "multer";
 
 import config from "./config/config.js";
 import connectDB from "./config/database.js";
@@ -14,6 +15,7 @@ import todoRoutes from "./routes/todoRoute.js";
 import userRoutes from "./routes/userRoute.js";
 
 const app = express();
+const upload=multer({dest:"uploads/"});
 connectDB();
 
 app.use(bodyParser.json());
@@ -28,7 +30,7 @@ app.get("/", (req, res) => {
   });
 });
 app.use("/api/auth", authRoutes);
-app.use("/api/products", productRoutes);
+app.use("/api/products",upload.array("images",5), productRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/todos", todoRoutes);
 app.use("/api/users", auth, roleBasedAuth(ADMIN), userRoutes);
