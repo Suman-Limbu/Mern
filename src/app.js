@@ -2,6 +2,7 @@ import bodyParser from "body-parser";
 import express from "express";
 import multer from "multer";
 
+import connectCloudinary from "./config/cloudinary.js";
 import config from "./config/config.js";
 import connectDB from "./config/database.js";
 import { ADMIN } from "./constants.js/roles.js";
@@ -17,6 +18,7 @@ import userRoutes from "./routes/userRoute.js";
 const app = express();
 const upload=multer({dest:"uploads/"});
 connectDB();
+connectCloudinary();
 
 app.use(bodyParser.json());
 app.use(logger);
