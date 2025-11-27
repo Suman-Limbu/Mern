@@ -16,7 +16,7 @@ import todoRoutes from "./routes/todoRoute.js";
 import userRoutes from "./routes/userRoute.js";
 
 const app = express();
-const upload=multer({dest:"uploads/"});
+const upload=multer({storage:multer.memoryStorage()});
 connectDB();
 connectCloudinary();
 
