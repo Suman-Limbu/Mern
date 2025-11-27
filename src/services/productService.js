@@ -2,7 +2,7 @@ import Product from "../models/Product.js";
 import uploadFile from "../utils/file.js";
 
 const getProducts = async (query) => {
-  const { limit, brands, category, offset, min, max , name } = query;
+  const { limit, brands, category, offset, min, max, name } = query;
   const sort = JSON.parse(query.sort || "{}");
 
   const filters = {};
@@ -26,9 +26,13 @@ const getProductById = async (id) => {
   return product;
 };
 
-const createProduct = async (data,files,createdBy) => {
-  await uploadFile(files);
-  const createdProduct = await Product.create({ ...data, createdBy });
+const createProduct = async (data, files, createdBy) => {
+  const uploadedFiles = await uploadFile(files);
+  const createdProduct = await Product.create({
+    ...data,
+    imageUrls: uploadedFiles.map((item) => item?.url),
+    createdBy,
+  });
   return createdProduct;
 };
 
@@ -57,6 +61,3 @@ export default {
   updateProduct,
   deleteProduct,
 };
-
-
-

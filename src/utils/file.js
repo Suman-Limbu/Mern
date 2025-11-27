@@ -1,6 +1,7 @@
 import { v2 as cloudinary } from "cloudinary";
 const CLOUDINARY_FOLDER = "mern-2025";
 async function uploadFile(files) {
+  const uploadResults = [];
   for (const file of files) {
     console.log(file);
     const result = await new Promise((resolve, reject) => {
@@ -12,7 +13,8 @@ async function uploadFile(files) {
         })
         .end(file.buffer);
     });
-    console.log(result);
+    uploadResults.push(result);
   }
+  return uploadResults;
 }
 export default uploadFile;
