@@ -3,7 +3,6 @@ const CLOUDINARY_FOLDER = "mern-2025";
 async function uploadFile(files) {
   const uploadResults = [];
   for (const file of files) {
-    console.log(file);
     const result = await new Promise((resolve, reject) => {
       cloudinary.uploader
         .upload_stream({ folder: CLOUDINARY_FOLDER }, (error, data) => {
