@@ -36,7 +36,7 @@ const createProduct = async (data, files, createdBy) => {
   return createdProduct;
 };
 
-const updateProduct = async (id, data, userId) => {
+const updateProduct = async (id, data, files, userId) => {
   const product = await getProductById(id);
   if (product.createdBy != userId) {
     throw {
@@ -44,7 +44,13 @@ const updateProduct = async (id, data, userId) => {
       message: "Access denied",
     };
   }
-  const updatedProduct = await Product.findByIdAndUpdate(id, data, {
+  const updateData = data;
+  if (files.length > 0) {
+    const uploadedFiles = await uploadFile(files);
+    updateData.imageUrls = uploadedFiles.map((item) => item?.url);
+  }
+
+  const updatedProduct = await Product.findByIdAndUpdate(id, updateData, {
     new: true,
   });
   return updatedProduct;

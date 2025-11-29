@@ -31,6 +31,7 @@ const updateProduct = async (req, res) => {
     const data = await productServices.updateProduct(
       id,
       req.body,
+      req.files,
       req.user._id
     );
     res.status(201).json(data);
