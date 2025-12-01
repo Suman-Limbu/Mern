@@ -8,6 +8,22 @@ const getOrders = async (req, res) => {
     res.status(error.statusCode || 500).send(error.message);
   }
 };
+const getOrdersByUser = async (req, res) => {
+  try {
+    const data = await orderService.getOrdersByUser(req.user._id);
+    res.status(201).send(data);
+  } catch (error) {
+    res.status(error.statusCode || 500).send(error.message);
+  }
+};
+const getOrderById = async (req, res) => {
+  try {
+    const data = await orderService.getOrderById(req.params.id);
+    res.status(201).send(data);
+  } catch (error) {
+    res.status(error.statusCode || 500).send(error.message);
+  }
+};
 
 const createOrder = async (req, res) => {
   const input = req.body;
@@ -30,4 +46,10 @@ const deleteOrder = async (req, res) => {
     res.status(error.statusCode || 500).send(error.message);
   }
 };
-export default { getOrders, createOrder ,deleteOrder};
+export default {
+  getOrders,
+  getOrdersByUser,
+  getOrderById,
+  createOrder,
+  deleteOrder,
+};

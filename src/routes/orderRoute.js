@@ -5,6 +5,8 @@ import auth from "../middlewares/auth.js";
 import roleBasedAuth from "../middlewares/roleBAsedAuth.js";
 const router = express.Router();
 router.get("/", auth, roleBasedAuth(ADMIN), authController.getOrders);
+router.get("/user", auth, authController.getOrdersByUser);
+router.get("/:id", auth, roleBasedAuth(ADMIN), authController.getOrderById);
 router.post("/", auth, authController.createOrder);
 router.delete("/:id", auth, roleBasedAuth(ADMIN), authController.deleteOrder);
 export default router;

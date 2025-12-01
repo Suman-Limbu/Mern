@@ -1,20 +1,42 @@
 import Order from "../models/Order.js";
 const getOrders = async () => {
-  const orders = await Order.find().populate("orderItems.productId").populate("userId",["name","email","phone","address"]);
+  const orders = await Order.find()
+    .populate("orderItems.productId")
+    .populate("userId", ["name", "email", "phone", "address"]);
   return orders;
+};
+const getOrdersByUser = async (userId) => {
+  const orders = await Order.find({ userId })
+    .populate("orderItems.productId")
+    .populate("userId", ["name", "email", "phone", "address"]);
+  return orders;
+};
+const getOrderById = async (id) => {
+  const order = await Order.findById(id)
+    .populate("orderItems.productId")
+    .populate("userId", ["name", "email", "phone", "address"]);
+  if (!order) {
+    throw {
+      statuscode: 404,
+      message: "order not found.",
+    };
+  }
+  return order;
 };
 
 const createOrder = async (data, userId) => {
   const orderNumber = crypto.randomUUID();
-  return (await Order.create({ ...data, userId, orderNumber }));
+  return await Order.create({ ...data, userId, orderNumber });
 };
-
-// const updateOrder = async (data, userId) => {
-//   return (await Order.findByIdAndUpdate({ ...data, userId, }));
-// };...
 
 const deleteOrder = async (id) => {
   return await Order.findByIdAndDelete(id);
 };
 
-export default { getOrders, createOrder, deleteOrder };
+export default {
+  getOrders,
+  getOrderById,
+  createOrder,
+  deleteOrder,
+  getOrdersByUser,
+};
