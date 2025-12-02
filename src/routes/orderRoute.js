@@ -7,6 +7,7 @@ const router = express.Router();
 router.get("/", auth, roleBasedAuth(ADMIN), authController.getOrders);
 router.get("/user", auth, authController.getOrdersByUser);
 router.get("/:id", auth, roleBasedAuth(ADMIN), authController.getOrderById);
+router.put("/:id", auth, roleBasedAuth(ADMIN), authController.updateOrder);
 router.post("/", auth, authController.createOrder);
 router.delete("/:id", auth, roleBasedAuth(ADMIN), authController.deleteOrder);
 export default router;

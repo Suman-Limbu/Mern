@@ -24,6 +24,14 @@ const getOrderById = async (req, res) => {
     res.status(error.statusCode || 500).send(error.message);
   }
 };
+const updateOrder = async (req, res) => {
+  try {
+    const data = await orderService.getOrderById(req.params._id, req.body);
+    res.status(201).send(data);
+  } catch (error) {
+    res.status(error.statusCode || 500).send(error.message);
+  }
+};
 
 const createOrder = async (req, res) => {
   const input = req.body;
@@ -50,6 +58,7 @@ export default {
   getOrders,
   getOrdersByUser,
   getOrderById,
+  updateOrder,
   createOrder,
   deleteOrder,
 };
