@@ -26,8 +26,9 @@ const getOrderById = async (req, res) => {
 };
 const updateOrder = async (req, res) => {
   try {
-    const data = await orderService.getOrderById(req.params._id, req.body);
-    res.status(201).send(data);
+    const data = await orderService.updateOrder(req.params.id, req.body);
+    console.log(data.status);
+    res.status(201).json(data);
   } catch (error) {
     res.status(error.statusCode || 500).send(error.message);
   }

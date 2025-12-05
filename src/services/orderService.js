@@ -34,7 +34,7 @@ const updateOrder = async (id, data) => {
     {
       status: data.status,
     },
-    { new: true }
+    { new: true,runValidators: true }
   );
 };
 const deleteOrder = async (id) => {
