@@ -24,7 +24,7 @@ const login = async (data) => {
 const register = async (data) => {
       const user = await User.findOne({ email: data.email });
   if(user){
-     throw{statusCode:400, message:"user already exits."}
+     throw{statusCode:404, message:"user already exits."}
   };
   const hashedPassword = bcrypt.hashSync(data.password);
   const registeredUser = await User.create({

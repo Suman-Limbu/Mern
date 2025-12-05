@@ -5,7 +5,7 @@ const login = async (req, res) => {
   const input = req.body;
   try {
     if (!input) {
-      res.send("Required data are missing");
+      return res.status(400).send("Required data are missing");
     }
     if (!input.password) {
       return res.status(400).send("password is required");
