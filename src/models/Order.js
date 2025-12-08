@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 import {
-    ORDER_STATUS_CONFIRMED,
-    ORDER_STATUS_DELIVERED,
-    ORDER_STATUS_PENDING,
-    ORDER_STATUS_SHIPPED,
+  ORDER_STATUS_CONFIRMED,
+  ORDER_STATUS_DELIVERED,
+  ORDER_STATUS_PENDING,
+  ORDER_STATUS_SHIPPED,
 } from "../constants.js/orderStatuses.js";
 const orderSchema = new mongoose.Schema({
   orderNumber: {
