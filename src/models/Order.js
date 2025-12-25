@@ -63,6 +63,10 @@ const orderSchema = new mongoose.Schema({
     default: Date.now(),
     immutable: true,
   },
+  payment: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Payment",
+  },
 });
 
 const model = mongoose.model("Order", orderSchema);
