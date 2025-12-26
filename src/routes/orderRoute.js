@@ -10,4 +10,5 @@ router.get("/:id", auth, roleBasedAuth(ADMIN), authController.getOrderById);
 router.put("/:id", auth, roleBasedAuth(ADMIN), authController.updateOrder);
 router.post("/", auth, authController.createOrder);
 router.delete("/:id", auth, roleBasedAuth(ADMIN), authController.deleteOrder);
+router.post("/:id/payment", auth, authController.orderPayment);
 export default router;
