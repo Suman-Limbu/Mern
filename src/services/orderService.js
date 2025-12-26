@@ -42,7 +42,8 @@ const deleteOrder = async (id) => {
 };
 
 const orderPayment= async(id, data)=>{
-  console.log("order");
+  const order= await getOrderById(id);
+  return order;
 }
 export default {
   getOrders,
