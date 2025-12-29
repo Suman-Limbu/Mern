@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-
 const paymentSchema = new mongoose.Schema({
   amount: { type: Number, required: [true, "Amount is required."] },
   method: { type: String, required: [true, "Payment Method is required."] },

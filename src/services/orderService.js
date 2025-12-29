@@ -1,4 +1,5 @@
 import Order from "../models/Order.js";
+import payment from "../utils/payment.js";
 const getOrders = async () => {
   const orders = await Order.find()
     .populate("orderItems.productId")
@@ -43,7 +44,13 @@ const deleteOrder = async (id) => {
 
 const orderPayment= async(id, data)=>{
   const order= await getOrderById(id);
-  return order;
+  const result=await payment.payViaKhalti({
+    returnUrl:data.return_url,
+    websiteUrl:data.website_url,
+    purchaseOrderId:data.purchase_order_id,
+    purchaseOrderName:data.purchase_order_name,
+  }, order)
+  return result;
 }
 export default {
   getOrders,
