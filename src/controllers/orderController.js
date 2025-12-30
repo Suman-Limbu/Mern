@@ -57,10 +57,9 @@ const deleteOrder = async (req, res) => {
 };
 
 const orderPayment = async (req, res) => {
-  const input = req.body;
   const id = req.params.id;
   try {
-    const data = await orderService.orderPayment(id, input);
+    const data = await orderService.orderPayment(id);
     res.status(201).send(data);
   } catch (error) {
     res.status(error.statusCode || 500).send(error.message);

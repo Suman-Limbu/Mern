@@ -35,23 +35,23 @@ const updateOrder = async (id, data) => {
     {
       status: data.status,
     },
-    { new: true,runValidators: true }
+    { new: true, runValidators: true }
   );
 };
 const deleteOrder = async (id) => {
   return await Order.findByIdAndDelete(id);
 };
 
-const orderPayment= async(id, data)=>{
-  const order= await getOrderById(id);
-  const result=await payment.payViaKhalti({
-    returnUrl:data.return_url,
-    websiteUrl:data.website_url,
-    purchaseOrderId:data.purchase_order_id,
-    purchaseOrderName:data.purchase_order_name,
-  }, order)
+const orderPayment = async (id) => {
+  const order = await getOrderById(id);
+  const result = await payment.payViaKhalti({
+    amount: order.totalPrice,
+    purchaseOrderId: order.id,
+    purchaseOrderName: order.orderNumber,
+    customer: order.userId,
+  });
   return result;
-}
+};
 export default {
   getOrders,
   getOrderById,
@@ -59,5 +59,5 @@ export default {
   createOrder,
   deleteOrder,
   getOrdersByUser,
-  orderPayment
+  orderPayment,
 };
