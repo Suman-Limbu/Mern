@@ -1,6 +1,8 @@
 import crypto from "crypto";
-import { default as Order, default as Payment } from "../models/Order.js";
+import Order from "../models/Order.js";
+import Payment from "../models/Payment.js";
 import payment from "../utils/payment.js";
+
 const getOrders = async () => {
   const orders = await Order.find()
     .populate("orderItems.productId")
@@ -16,7 +18,8 @@ const getOrdersByUser = async (userId) => {
 const getOrderById = async (id) => {
   const order = await Order.findById(id)
     .populate("orderItems.productId")
-    .populate("userId", ["name", "email", "phone", "address"]);
+    .populate("userId", ["name", "email", "phone", "address"])
+    .populate("payment");
   if (!order) {
     throw {
       statuscode: 404,
@@ -45,18 +48,23 @@ const deleteOrder = async (id) => {
 
 const orderPayment = async (id) => {
   const order = await getOrderById(id);
- const transactionId= crypto.randomUUID();
-  await Payment.create({
-amount: order.totalPrice,
-method:"online",
-transactionId
-  })
-  return await payment.payViaKhalti({
+  const transactionId = crypto.randomUUID();
+
+  const orderPayment = await Payment.create({
+    amount: order.totalPrice,
+    method: "online",
+    transactionId,
+  });
+
+  await Order.findByIdAndUpdate(id, { payment: orderPayment._id });
+  
+  const result = await payment.payViaKhalti({
     amount: order.totalPrice,
     purchaseOrderId: order.id,
     purchaseOrderName: order.orderNumber,
     customer: order.userId,
   });
+  return result;
 };
 export default {
   getOrders,
