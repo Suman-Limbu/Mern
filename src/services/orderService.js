@@ -1,4 +1,5 @@
-import Order from "../models/Order.js";
+import crypto from "crypto";
+import { default as Order, default as Payment } from "../models/Order.js";
 import payment from "../utils/payment.js";
 const getOrders = async () => {
   const orders = await Order.find()
@@ -44,13 +45,18 @@ const deleteOrder = async (id) => {
 
 const orderPayment = async (id) => {
   const order = await getOrderById(id);
-  const result = await payment.payViaKhalti({
+ const transactionId= crypto.randomUUID();
+  await Payment.create({
+amount: order.totalPrice,
+method:"online",
+transactionId
+  })
+  return await payment.payViaKhalti({
     amount: order.totalPrice,
     purchaseOrderId: order.id,
     purchaseOrderName: order.orderNumber,
     customer: order.userId,
   });
-  return result;
 };
 export default {
   getOrders,
