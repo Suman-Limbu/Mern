@@ -65,6 +65,15 @@ const orderPayment = async (req, res) => {
     res.status(error.statusCode || 500).send(error.message);
   }
 };
+const confirmOrderPayment = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const data = await orderService.confirmOrderPayment(id, req.body);
+    res.status(201).send(data);
+  } catch (error) {
+    res.status(error.statusCode || 500).send(error.message);
+  }
+};
 
 export default {
   getOrders,
@@ -74,4 +83,5 @@ export default {
   createOrder,
   deleteOrder,
   orderPayment,
+  confirmOrderPayment,
 };

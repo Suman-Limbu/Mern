@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import { USER } from "../constants.js/roles.js";
+import { USER } from "../constants/roles.js";
 import User from "../models/User.js";
 
 const login = async (data) => {

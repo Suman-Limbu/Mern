@@ -10,9 +10,10 @@ const getOrders = async () => {
   return orders;
 };
 const getOrdersByUser = async (userId) => {
-  const orders = await Order.find({ user: userId })
+  const orders = await Order.find({ userId: userId })
     .populate("orderItems.productId")
-    .populate("userId", ["name", "email", "phone", "address"]);
+    .populate("userId", ["name", "email", "phone", "address"])
+    .populate("payment");
   return orders;
 };
 const getOrderById = async (id) => {
@@ -57,15 +58,28 @@ const orderPayment = async (id) => {
   });
 
   await Order.findByIdAndUpdate(id, { payment: orderPayment._id });
-  
-  const result = await payment.payViaKhalti({
+
+  return await payment.payViaKhalti({
     amount: order.totalPrice,
     purchaseOrderId: order.id,
     purchaseOrderName: order.orderNumber,
     customer: order.userId,
   });
-  return result;
 };
+
+const confirmOrderPayment = async (id, status) => {
+  const order = await getOrderById(id);
+  if (status == "completed") {
+    await Payment.findByIdAndUpdate(order.payment?._id, {
+      status: "completed",
+    });
+  } else {
+    await Payment.findByIdAndUpdate(order.payment?._id, {
+      status: "failed",
+    });
+  }
+};
+
 export default {
   getOrders,
   getOrderById,
@@ -74,4 +88,5 @@ export default {
   deleteOrder,
   getOrdersByUser,
   orderPayment,
+  confirmOrderPayment,
 };

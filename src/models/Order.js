@@ -4,7 +4,7 @@ import {
   ORDER_STATUS_DELIVERED,
   ORDER_STATUS_PENDING,
   ORDER_STATUS_SHIPPED,
-} from "../constants.js/orderStatuses.js";
+} from "../constants/orderStatuses.js";
 const orderSchema = new mongoose.Schema({
   orderNumber: {
     type: String,

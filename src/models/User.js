@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { ADMIN, MERCHANT, USER } from "../constants.js/roles.js";
+import { ADMIN, MERCHANT, USER } from "../constants/roles.js";
 
 const userSchema = new mongoose.Schema({
   name: { type: String, required: [true, "user name is required"] },
