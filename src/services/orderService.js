@@ -68,16 +68,17 @@ const orderPayment = async (id) => {
 };
 
 const confirmOrderPayment = async (id, status) => {
-  const order = await getOrderById(id);
-  if (status == "completed") {
-    await Payment.findByIdAndUpdate(order.payment?._id, {
-      status: "completed",
-    });
-  } else {
-    await Payment.findByIdAndUpdate(order.payment?._id, {
-      status: "failed",
-    });
-  }
+  const order = await Order.findById(id).populate("payment");
+  console.log(order);
+  // if (status == "Completed") {
+  //   await Payment.findByIdAndUpdate(order.payment._id, {
+  //     status: "Completed",
+  //   });
+  // } else {
+  //   await Payment.findByIdAndUpdate(order.payment._id, {
+  //     status: "Failed",
+  //   });
+  // }
 };
 
 export default {
