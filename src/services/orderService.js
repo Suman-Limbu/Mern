@@ -1,4 +1,8 @@
 import crypto from "crypto";
+import {
+  PAYMENT_STATUS_COMPLETED,
+  PAYMENT_STATUS_FAILED,
+} from "../constants/paymentStatuses.js";
 import Order from "../models/Order.js";
 import Payment from "../models/Payment.js";
 import payment from "../utils/payment.js";
@@ -57,7 +61,11 @@ const orderPayment = async (id) => {
     transactionId,
   });
 
-  await Order.findByIdAndUpdate(id, { payment: orderPayment._id });
+  await Order.findByIdAndUpdate(
+    id,
+    { payment: orderPayment._id },
+    { new: true, runValidators: true }
+  );
 
   return await payment.payViaKhalti({
     amount: order.totalPrice,
@@ -68,17 +76,17 @@ const orderPayment = async (id) => {
 };
 
 const confirmOrderPayment = async (id, status) => {
-  const order = await Order.findById(id).populate("payment");
-  console.log(order);
-  // if (status == "Completed") {
-  //   await Payment.findByIdAndUpdate(order.payment._id, {
-  //     status: "Completed",
-  //   });
-  // } else {
-  //   await Payment.findByIdAndUpdate(order.payment._id, {
-  //     status: "Failed",
-  //   });
-  // }
+  const order = await getOrderById(id);
+
+  if (status == PAYMENT_STATUS_COMPLETED) {
+    await Payment.findByIdAndUpdate(order.payment, {
+      status: PAYMENT_STATUS_COMPLETED,
+    });
+  } else {
+    await Payment.findByIdAndUpdate(order.payment, {
+      status: PAYMENT_STATUS_FAILED,
+    });
+  }
 };
 
 export default {
