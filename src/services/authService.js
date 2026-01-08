@@ -50,8 +50,7 @@ const register = async (data) => {
 
 
 const forgotPassword=async (email)=>{
-  const data=await User.findOne({email});
-  return data;
+
 
 }
 export default { register, login, forgotPassword };
