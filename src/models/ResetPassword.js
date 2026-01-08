@@ -5,7 +5,7 @@ const resetPasswordSchema = new mongoose.Schema({
     type: String,
     required: [true, "Reset password token is required."],
   },
-  expiresIn: {
+  expiresAt: {
     type: Date,
     default: Date.now() + 3600000,
   },
@@ -19,7 +19,6 @@ const resetPasswordSchema = new mongoose.Schema({
     default: [true, "User Id is required."],
   },
 });
-
 
 const model = mongoose.model("ResetPassword", resetPasswordSchema);
 

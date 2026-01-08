@@ -1,12 +1,13 @@
 import bcrypt from "bcryptjs";
 import { USER } from "../constants/roles.js";
 import User from "../models/User.js";
+import ResetPassword from "../models/ResetPassword.js";
 
 const login = async (data) => {
   const user = await User.findOne({ email: data.email });
-  if(!user){
-     throw{statusCode:404, message:"user not found"}
-  };
+  if (!user) {
+    throw { statusCode: 404, message: "user not found" };
+  }
   const isPasswordMatch = bcrypt.compareSync(data.password, user.password);
   if (!isPasswordMatch)
     throw { statusCode: 404, message: "incorrect email or password" };
@@ -22,10 +23,10 @@ const login = async (data) => {
 };
 
 const register = async (data) => {
-      const user = await User.findOne({ email: data.email });
-  if(user){
-     throw{statusCode:404, message:"user already exits."}
-  };
+  const user = await User.findOne({ email: data.email });
+  if (user) {
+    throw { statusCode: 404, message: "user already exits." };
+  }
   const hashedPassword = bcrypt.hashSync(data.password);
   const registeredUser = await User.create({
     name: data.name,
@@ -33,8 +34,7 @@ const register = async (data) => {
     email: data.email,
     phone: data.phone,
     password: hashedPassword,
-    roles:[USER],
-    
+    roles: [USER],
   });
   return {
     _id: registeredUser._id,
@@ -46,11 +46,13 @@ const register = async (data) => {
   };
 };
 
-
-
-
-const forgotPassword=async (email)=>{
-
-
-}
+const forgotPassword = async (email) => {
+  const user = await User.findOne({ email });
+  if (!user) return;
+  const token = crypto.randomUUID();
+  await ResetPassword.create({
+    userId: user._id,
+    token,
+  });
+};
 export default { register, login, forgotPassword };

@@ -52,7 +52,6 @@ const register = async (req, res) => {
 const forgotPassword = async (req, res) => {
   const input = req.body;
   try {
-    
     if (!input.email) {
       return res.status(400).send("email is required");
     }
@@ -64,5 +63,4 @@ const forgotPassword = async (req, res) => {
   }
 };
 
-
-export default { register, login ,forgotPassword};
+export default { register, login, forgotPassword };
