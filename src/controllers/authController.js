@@ -48,5 +48,14 @@ const register = async (req, res) => {
     res.status(error.statusCode || 500).send(error.message);
   }
 };
+const forgotPassword=async (req,res)=>{
+  const input=req.body;
+  if(!input.email){
+    return res.send("email is required")
+  }
+  const data= await authService.forgotPassword(input.email);
+  res.json(data);
+  // res.send("hello")
+}
 
-export default { register, login };
+export default { register, login ,forgotPassword};

@@ -45,4 +45,13 @@ const register = async (data) => {
     roles: registeredUser.roles,
   };
 };
-export default { register, login };
+
+
+
+
+const forgotPassword=async (email)=>{
+  const data=await User.findOne({email});
+  return data;
+
+}
+export default { register, login, forgotPassword };
