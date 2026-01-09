@@ -55,4 +55,19 @@ const forgotPassword = async (email) => {
     token,
   });
 };
+
+const resetPassword=async (userId, token, newPassword)=>{
+  const data=await ResetPassword.findOne({userId, 
+    expiresAt:{$gt:Date.now()},
+    isUsed: false});
+  if(data! || data.token !==token)
+    throw{statusCode:400,message:"Invalid or expired token"};
+const hashedPassword= bcrypt.hashSync(newPassword);
+await User.findByIdAndUpdate({
+  password:hashedPassword
+})
+await ResetPassword.findByIdAndUpdate(data._id{
+  isUsed:true
+})
+}
 export default { register, login, forgotPassword };
