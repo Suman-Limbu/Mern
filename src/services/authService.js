@@ -50,24 +50,23 @@ const forgotPassword = async (email) => {
   const user = await User.findOne({ email });
   if (!user) return;
   const token = crypto.randomUUID();
-  await ResetPassword.create({
-    userId: user._id,
-    token,
-  });
+  await ResetPassword.create({ token, userId: user._id });
 };
 
-const resetPassword=async (userId, token, newPassword)=>{
-  const data=await ResetPassword.findOne({userId, 
-    expiresAt:{$gt:Date.now()},
-    isUsed: false});
-  if(data! || data.token !==token)
-    throw{statusCode:400,message:"Invalid or expired token"};
-const hashedPassword= bcrypt.hashSync(newPassword);
-await User.findByIdAndUpdate({
-  password:hashedPassword
-})
-await ResetPassword.findByIdAndUpdate(data._id{
-  isUsed:true
-})
-}
+const resetPassword = async (userId, token, newPassword) => {
+  const data = await ResetPassword.findOne({
+    userId,
+    expiresAt: { $gt: Date.now() },
+    isUsed: false,
+  });
+  if (!data || data.token !== token)
+    throw { statusCode: 400, message: "invalid or expired token." };
+  const hashedPassword = bcrypt.hashSync(newPassword);
+  await User.findByIdAndUpdate(userId, {
+   password: hashedPassword
+  });
+   await User.findByIdAndUpdate(data._id, {
+    isUsed: true,
+  });
+};
 export default { register, login, forgotPassword };

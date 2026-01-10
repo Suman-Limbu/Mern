@@ -1,9 +1,8 @@
 import mongoose from "mongoose";
-
 const resetPasswordSchema = new mongoose.Schema({
   token: {
     type: String,
-    required: [true, "Reset password token is required."],
+    required: [true, "ResetPassword Token is required."],
   },
   expiresAt: {
     type: Date,
@@ -16,10 +15,9 @@ const resetPasswordSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    default: [true, "User Id is required."],
+    required: [true, "UserId is required."],
   },
 });
 
 const model = mongoose.model("ResetPassword", resetPasswordSchema);
-
 export default model;
