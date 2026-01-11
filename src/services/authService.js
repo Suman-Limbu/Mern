@@ -3,6 +3,7 @@ import { USER } from "../constants/roles.js";
 import User from "../models/User.js";
 import ResetPassword from "../models/ResetPassword.js";
 import sendEmail from "../utils/email.js";
+import config from "../config/config.js";
 
 const login = async (data) => {
   const user = await User.findOne({ email: data.email });
@@ -49,12 +50,32 @@ const register = async (data) => {
 
 const forgotPassword = async (email) => {
   const user = await User.findOne({ email });
-  if (!user) return;
+  if (!user)  throw{ message:"UserNot found."}
   const token = crypto.randomUUID();
   await ResetPassword.create({ token, userId: user._id });
-  await sendEmail("asgd",{subject:"tes",message:"test"});
+  await sendEmail(email, {
+    subject: "Reset Password Link",
+    body: `<!DOCTYPE html>
+<html>
+<body style="font-family: Arial, sans-serif;">
+  <h3>Password Reset Request</h3>
+  <p>Click the button below to reset your password:</p>
+
+  <a href="${config.appUrl}/reset-password?token=${token}&userId=${user._id}}"
+     style="display:inline-block;padding:10px 16px;
+            background:#2563eb;color:#fff;
+            text-decoration:none;border-radius:4px;">
+    Reset Password
+  </a>
+
+  <p style="font-size:12px;color:#555;">
+    If you didn’t request this, please ignore this email.
+  </p>
+</body>
+</html>
+`,
+  });
   return { message: "reset password link sent successfully." };
-  
 };
 
 const resetPassword = async (userId, token, newPassword) => {

@@ -3,17 +3,16 @@ import config from '../config/config.js';
 
 const resend = new Resend(config.emailApiKey);
 
-async function sendEmail(recipent,{subject,message}){
+async function sendEmail(recipient,{subject,body}){
   const { data, error } = await resend.emails.send({
     from: 'onboarding@resend.dev',
-    to: ['sumanscoopie123@gmail.com'],
-    subject: 'Hello World',
-    html: '<strong>It works!</strong>',
+    to: [recipient],
+    subject,
+    html: body
   });
 
   if (error) 
   throw error;
-
-  console.log({ data });
+return data;
 };
 export default sendEmail;
