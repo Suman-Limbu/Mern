@@ -66,9 +66,9 @@ const resetPassword = async (req, res) => {
   const input = req.body;
   const query = req.query;
   try {
-    // if (!input) {
-    //   return res.status(400).send("required data are missing");
-    // }
+    if (!input) {
+      return res.status(400).send("required data are missing");
+    }
     if (!query.token || !query.userId) {
       return res.status(400).send("Token and UserId are missing");
     }

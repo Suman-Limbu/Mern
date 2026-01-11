@@ -51,24 +51,27 @@ const forgotPassword = async (email) => {
   if (!user) return;
   const token = crypto.randomUUID();
   await ResetPassword.create({ token, userId: user._id });
-  return {message:"reset password url link sent successfully."}
+  return { message: "reset password url link sent successfully." };
 };
 
 const resetPassword = async (userId, token, newPassword) => {
   const data = await ResetPassword.findOne({
     userId,
     expiresAt: { $gt: Date.now() },
-    isUsed: false,
-  });
+  }).sort({ expiresAt: -1 });
+  console.log(data);
   if (!data || data.token !== token)
     throw { statusCode: 400, message: "invalid or expired token." };
+  if (data.isUsed) {
+    throw { statusCode: 400, message: "Token has already been used." };
+  }
   const hashedPassword = bcrypt.hashSync(newPassword);
   await User.findByIdAndUpdate(userId, {
-   password: hashedPassword
+    password: hashedPassword,
   });
-   await ResetPassword.findByIdAndUpdate(data._id, {
+  await ResetPassword.findByIdAndUpdate(data._id, {
     isUsed: true,
   });
-  return {message:"reset password successfully."}
+  return { message: "reset password successfully." };
 };
-export default { register, login, forgotPassword,resetPassword };
+export default { register, login, forgotPassword, resetPassword };
