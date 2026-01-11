@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import { USER } from "../constants/roles.js";
 import User from "../models/User.js";
 import ResetPassword from "../models/ResetPassword.js";
+import sendEmail from "../utils/email.js";
 
 const login = async (data) => {
   const user = await User.findOne({ email: data.email });
@@ -51,7 +52,9 @@ const forgotPassword = async (email) => {
   if (!user) return;
   const token = crypto.randomUUID();
   await ResetPassword.create({ token, userId: user._id });
-  return { message: "reset password url link sent successfully." };
+  await sendEmail("asgd",{subject:"tes",message:"test"});
+  return { message: "reset password link sent successfully." };
+  
 };
 
 const resetPassword = async (userId, token, newPassword) => {
