@@ -51,6 +51,7 @@ const forgotPassword = async (email) => {
   if (!user) return;
   const token = crypto.randomUUID();
   await ResetPassword.create({ token, userId: user._id });
+  return {message:"reset password url link sent successfully."}
 };
 
 const resetPassword = async (userId, token, newPassword) => {
@@ -65,8 +66,9 @@ const resetPassword = async (userId, token, newPassword) => {
   await User.findByIdAndUpdate(userId, {
    password: hashedPassword
   });
-   await User.findByIdAndUpdate(data._id, {
+   await ResetPassword.findByIdAndUpdate(data._id, {
     isUsed: true,
   });
+  return {message:"reset password successfully."}
 };
-export default { register, login, forgotPassword };
+export default { register, login, forgotPassword,resetPassword };
