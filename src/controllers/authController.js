@@ -64,9 +64,12 @@ const forgotPassword = async (req, res) => {
 };
 const resetPassword = async (req, res) => {
   const input = req.body;
-  const query=req.body;
+  const query = req.query;
   try {
-    if (!query.token|| !query.userId) {
+    // if (!input) {
+    //   return res.status(400).send("required data are missing");
+    // }
+    if (!query.token || !query.userId) {
       return res.status(400).send("Token and UserId are missing");
     }
     if (!input.password) {
@@ -75,10 +78,14 @@ const resetPassword = async (req, res) => {
     if (!input.confirmPassword) {
       return res.status(400).send("confirmPassword is required");
     }
-     if (input.password !== input.confirmPassword) {
+    if (input.password !== input.confirmPassword) {
       return res.status(400).send("password do not match");
     }
-    const data = await authService.resetPassword(query.userId, query.token, input.password);
+    const data = await authService.resetPassword(
+      query.userId,
+      query.token,
+      input.password
+    );
 
     res.status(201).json(data);
   } catch (error) {
@@ -86,4 +93,4 @@ const resetPassword = async (req, res) => {
   }
 };
 
-export default { register, login, forgotPassword,resetPassword };
+export default { register, login, forgotPassword, resetPassword };
